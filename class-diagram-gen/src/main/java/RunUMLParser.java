@@ -71,6 +71,8 @@ public class RunUMLParser {
 			File file = filesInFolder[i];
 			if (isValidFile(file)) {
 				files.add(file);
+			} else if (file.isDirectory()) {
+				files.addAll( getFileListFromFolder(file) );
 			}
 		}
 		return files;

@@ -16,6 +16,7 @@ import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.VariableDeclarationExpr;
 import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.Type;
+import java.util.logging.Logger;
 
 /**
  * Deals with creating relationships between {@link UMLClass} by using the 
@@ -25,7 +26,8 @@ import japa.parser.ast.type.Type;
  *
  */
 public class Counselor {
-	
+
+	private static final Logger log = Logger.getLogger(Counselor.class.getName());
 	private static Counselor counselor;
 	private List<Relationship> relationships;
 	private List<UMLClass> umlClasses;
@@ -57,21 +59,25 @@ public class Counselor {
 	 * @param type
 	 */
 	public void checkForRelatives(UMLClass umlClass, TypeDeclaration type){
-		ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) type;
-		if(classOrInterfaceDeclaration.getExtends() != null){
-			List<ClassOrInterfaceType> extendList = classOrInterfaceDeclaration.getExtends();
-			for(ClassOrInterfaceType ext : extendList){
-				umlClass.addParent(ext.getName());
-				createRelationship(umlClass, ext, RelationType.GENERALIZATION);
+		if (type instanceof ClassOrInterfaceDeclaration) {
+			ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) type;
+			if (classOrInterfaceDeclaration.getExtends() != null) {
+				List<ClassOrInterfaceType> extendList = classOrInterfaceDeclaration.getExtends();
+				for (ClassOrInterfaceType ext : extendList) {
+					umlClass.addParent(ext.getName());
+					createRelationship(umlClass, ext, RelationType.GENERALIZATION);
+				}
 			}
-		}
-		
-		if(classOrInterfaceDeclaration.getImplements() != null){
-			List<ClassOrInterfaceType> implementList = classOrInterfaceDeclaration.getImplements();
-			for(ClassOrInterfaceType imp : implementList){
-				umlClass.addParent(imp.getName());
-				createRelationship(umlClass, imp, RelationType.REALIZATION);
+
+			if (classOrInterfaceDeclaration.getImplements() != null) {
+				List<ClassOrInterfaceType> implementList = classOrInterfaceDeclaration.getImplements();
+				for (ClassOrInterfaceType imp : implementList) {
+					umlClass.addParent(imp.getName());
+					createRelationship(umlClass, imp, RelationType.REALIZATION);
+				}
 			}
+		} else {
+			log.warning(String.format("Type %s not a ClassOrInterfaceDeclaration: %s", type, type.getClass()));
 		}
 	}
 	

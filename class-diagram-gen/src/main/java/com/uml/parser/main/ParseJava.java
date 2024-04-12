@@ -1,4 +1,5 @@
 package com.uml.parser.main;
+import japa.parser.ast.body.EnumDeclaration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -70,7 +71,10 @@ public class ParseJava {
 		List<TypeDeclaration> types = compliationUnit.getTypes();
 		for(TypeDeclaration type : types){
 			List<BodyDeclaration> bodyDeclarations = type.getMembers();
-			boolean isInterface = ((ClassOrInterfaceDeclaration) type).isInterface();
+			boolean isInterface = false;
+			if (type instanceof ClassOrInterfaceDeclaration) {
+				isInterface = ((ClassOrInterfaceDeclaration) type).isInterface();
+			}
 			
 			UMLClass umlClass = counselor.getUMLClass(type.getName());
 			umlClass.setInterface(isInterface);
