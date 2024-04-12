@@ -85,5 +85,26 @@
         </plugins>
     </build>
 
+    <scm>
+        <connection>scm:git:git://github.com/albertlr/uml-parser</connection>
+        <tag>HEAD</tag>
+        <url>https://github.com/albertlr/uml-parser</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>rishirajrandive</id>
+            <url>https://github.com/rishirajrandive</url>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <email>albertlaszlorobert@gmail.com</email>
+            <name>László-Róbert, Albert</name>
+            <url>https://github.com/albertlr</url>
+            <timezone>Europe/Bucharest</timezone>
+        </contributor>
+    </contributors>
 
 </project>
